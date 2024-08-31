@@ -12,7 +12,7 @@ export default function LandingPage() {
             <nav>
                 <a href="#">Home</a>
                 <a href="/auth">Sign Up</a>
-                <a href="#">Sign In</a>
+                <a href="/signin">Sign In</a>
             </nav>
         </header>
         <p className={styles.qlp}>Chat seamlessly, connect effortlessly – your perfect conversation starts here</p>

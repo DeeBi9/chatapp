@@ -1,17 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
+	"github.com/Deepanshuisjod/chatapp/auth"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
-
-type User struct {
-	username string `json:"username"`
-	password string `json:"password"`
-}
 
 func main() {
 	r := gin.Default()
@@ -20,14 +15,18 @@ func main() {
 	r.Use(cors.Default())
 
 	r.POST("/", func(c *gin.Context) {
-		// Handle the form data or JSON here
-		var data User
-		if err := c.Bind(&data); err != nil {
+		var data auth.UserInfo
+
+		if err := c.BindJSON(&data); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"message": "Success", "data": data})
-		fmt.Println(data.username)
+		isUsernameExists, userData, message := data.Auth()
+		if isUsernameExists {
+			c.JSON(http.StatusConflict, gin.H{"message": message, "data": userData})
+		} else {
+			c.JSON(http.StatusOK, gin.H{"message": message, "data": userData})
+		}
 	})
 
 	r.Run(":8080")

@@ -2,6 +2,8 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Auth from './auth/Auth';
 import Welcome from './LandingPage/Welcome';
+import Signin from './signin/Signin';
+
 function App() {
   return (
     <BrowserRouter>
@@ -9,6 +11,7 @@ function App() {
         <Route path='/' element={<Welcome/>}></Route>
         <Route path="/auth" element={<Auth/>}>
         </Route>
+        <Route path='/signin/' element={<Signin/>}></Route>  
       </Routes>
 
     </BrowserRouter>
