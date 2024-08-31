@@ -1,64 +1,63 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 import './Signin.css';
 
-var jsonResponse = {}
+// Function to handle the form submission and make the request
+async function checkForIDPass(jsonData, navigate) {
+    try {
+        const response = await fetch("http://localhost:8080/authentication", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: jsonData,
+            mode: 'cors',
+        });
 
-// Sends the request to backend server to check for correct Id and Password
-// If correct it returns with a JWT token if incorrect it returns with a error
-// Incorrect Password or Incorrect Id.
-async function CheckForIDPass(jsonData) {
+        if (response.ok) {
+            const jsonResponse = await response.json();
+            const token = jsonResponse.token; 
+            console.log("Received JWT:", token);
 
-        try {
-            const response = await fetch("http://localhost:8080/authentication", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json' 
-                },
-                body: jsonData,
-                mode: 'cors',
-            });
-            if (response.ok) {
-                jsonResponse = await response.json();
-                console.log(jsonResponse);
-                // Handle successful ID authentication
-                alert("Welcome. Click Ok to proceed")
-            } else {
-                jsonResponse = await response.json();
-                console.error(jsonResponse.message); // Log or display other error messages
-                alert("An error occurred: " + jsonResponse.message);
-            }
-            
-        } catch (e) {    
-            console.error('Problem occured while fetching the information:', e);
-            alert('There was a problem with the fetch operation.');
+            // Store the token in localStorage
+            localStorage.setItem('jwtToken', token);
+
+            // Navigate to another page or update the app state
+            alert("Welcome. Click Ok to proceed");
+            navigate('/main'); // Example: Navigate to a protected route
+        } else {
+            const jsonResponse = await response.json();
+            console.error("Error:", jsonResponse.message || "Unknown error");
+            console.log(jsonResponse)
+            alert("An error occurred: " + (jsonResponse.message || "Unknown error"));
         }
+
+    } catch (e) {
+        console.error('Problem occurred while fetching the information:', e);
+        alert('There was a problem with the fetch operation.');
+    }
 }
 
 function Signin() {
-    const navigate = useNavigate();
-    const [userId, setUserId] = useState(null);
+    const navigate = useNavigate(); // useNavigate hook for navigation
 
-    const SubmitForm = (event) => {
+    const submitForm = (event) => {
         event.preventDefault(); // Prevent the default form submission behavior
 
         const form = event.target; // Get the form element from the event
         const formData = new FormData(form);
         const plainObject = Object.fromEntries(formData.entries());
         const jsonData = JSON.stringify(plainObject);
-        console.log(jsonData);
-        console.log(plainObject);
 
-        // Parse and set userId
-        const userId = parseInt(plainObject.Id);
-        setUserId(userId);
+        console.log("Submitted JSON Data:", jsonData);
 
-        CheckForIDPass(jsonData);
+        // Call the function to check ID and password, and handle JWT
+        checkForIDPass(jsonData, navigate);
     };
 
     return (
         <div id="form-container">
-            <form id="form" onSubmit={SubmitForm}>
+            <form id="form" onSubmit={submitForm}>
                 <div id="components">
                     <div>
                         <label htmlFor="Id" className="Id">ID</label>

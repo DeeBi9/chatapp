@@ -1,4 +1,4 @@
-package main
+package emiter
 
 import (
 	"context"
@@ -16,7 +16,7 @@ func failOnError(err error, msg string) {
 	}
 }
 
-func main() {
+func (ec EmitClient) emit_log() {
 	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
@@ -26,13 +26,13 @@ func main() {
 	defer ch.Close()
 
 	err = ch.ExchangeDeclare(
-		"logs",   // name
-		"fanout", // type
-		true,     // durable
-		false,    // auto-deleted
-		false,    // internal
-		false,    // no-wait
-		nil,      // arguments
+		ec.Exchange, // name
+		"fanout",    // type
+		true,        // durable
+		false,       // auto-deleted
+		false,       // internal
+		false,       // no-wait
+		nil,         // arguments
 	)
 	failOnError(err, "Failed to declare an exchange")
 
@@ -41,10 +41,10 @@ func main() {
 
 	body := bodyFrom(os.Args)
 	err = ch.PublishWithContext(ctx,
-		"logs", // exchange
-		"",     // routing key
-		false,  // mandatory
-		false,  // immediate
+		ec.Exchange, // exchange
+		"",          // routing key
+		false,       // mandatory
+		false,       // immediate
 		amqp.Publishing{
 			ContentType: "text/plain",
 			Body:        []byte(body),

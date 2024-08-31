@@ -1,9 +1,9 @@
-package main
+package emiter
 
 // Client structure to connect to the websocket connection
-type Client struct {
+type EmitClient struct {
 	ID                int
-	Name              string
+	Exchange          string
 	sender_username   string
 	reciever_username string
 }
