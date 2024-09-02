@@ -4,6 +4,9 @@ import './Signin.css';
 
 // Function to handle the form submission and make the request
 async function checkForIDPass(jsonData, navigate) {
+    const parsedData = JSON.parse(jsonData);
+    const userPath = parseInt(parsedData.Id)
+    console.log(userPath)
     try {
         const response = await fetch("http://localhost:8080/authentication", {
             method: "POST",
@@ -24,7 +27,7 @@ async function checkForIDPass(jsonData, navigate) {
 
             // Navigate to another page or update the app state
             alert("Welcome. Click Ok to proceed");
-            navigate('/main'); // Example: Navigate to a protected route
+            navigate(`/main/${userPath}`); // Example: Navigate to a protected route
         } else {
             const jsonResponse = await response.json();
             console.error("Error:", jsonResponse.message || "Unknown error");

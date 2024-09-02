@@ -1,0 +1,161 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body, html {
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.sidebar {
+    width: 30%;
+    background-color: #051221;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #3e4f62;
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.search {
+    padding: 15px;
+    border-bottom: 1px solid #3e4f62;
+}
+
+.search input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+.contacts {
+    list-style: none;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.contact {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #3e4f62;
+    transition: background-color 0.2s ease;
+}
+
+.contact:hover {
+    background-color: #67707a;
+}
+
+.contact-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.contact-info h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.contact-info p {
+    font-size: 14px;
+    color: #aaa;
+}
+
+.chat-area {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f5f5;
+}
+
+.chat-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    background-color: #e6e4e4;
+    border-bottom: 1px solid #ddd;
+}
+
+.chat-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.message {
+    max-width: 60%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.message.received {
+    background-color: #051221;
+    align-self: flex-start;
+    
+}
+
+.message.sent {
+    background-color: #051221;
+    align-self: flex-end;
+}
+.message-text {
+    color: white;
+}
+.time {
+    display: block;
+    font-size: 12px;
+    color: #b6b6b6;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.chat-input {
+    padding: 20px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+}
+
+.chat-input input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}

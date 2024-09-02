@@ -12,7 +12,7 @@ function App() {
         <Route path='/' element={<Welcome/>}></Route>
         <Route path="/auth" element={<Auth/>}></Route>
         <Route path='/signin/' element={<Signin/>}></Route>  
-        <Route path='/main' element={<MainChat/>}></Route>
+        <Route path='/main/:userId' element={<MainChat/>}></Route>
       </Routes> 
 
     </BrowserRouter>
