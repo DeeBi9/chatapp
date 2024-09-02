@@ -26,13 +26,13 @@ func (ec EmitClient) emit_log() {
 	defer ch.Close()
 
 	err = ch.ExchangeDeclare(
-		ec.Exchange, // name
-		"fanout",    // type
-		true,        // durable
-		false,       // auto-deleted
-		false,       // internal
-		false,       // no-wait
-		nil,         // arguments
+		Exchange, // name
+		"direct", // type
+		true,     // durable
+		false,    // auto-deleted
+		false,    // internal
+		false,    // no-wait
+		nil,      // arguments
 	)
 	failOnError(err, "Failed to declare an exchange")
 
@@ -41,10 +41,10 @@ func (ec EmitClient) emit_log() {
 
 	body := bodyFrom(os.Args)
 	err = ch.PublishWithContext(ctx,
-		ec.Exchange, // exchange
-		"",          // routing key
-		false,       // mandatory
-		false,       // immediate
+		Exchange,             // exchange
+		ec.reciever_username, // routing key
+		false,                // mandatory
+		false,                // immediate
 		amqp.Publishing{
 			ContentType: "text/plain",
 			Body:        []byte(body),
